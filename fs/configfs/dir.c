@@ -64,6 +64,10 @@ static void configfs_d_iput(struct dentry * dentry,
 		 * If not do so, configfs_d_iput may run just after
 		 * configfs_attach_attr and set sd->s_dentry to null
 		 * even it's still in use.
+		 * Set sd->s_dentry to null only when this dentry is the one
+		 * that is going to be killed.  Otherwise configfs_d_iput may
+		 * run just after configfs_attach_attr and set sd->s_dentry to
+		 * NULL even it's still in use.
 		 */
 		if (sd->s_dentry == dentry)
 			sd->s_dentry = NULL;
